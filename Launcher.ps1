@@ -2,6 +2,8 @@ $ErrorActionPreference = 'Stop'
 
 $REPO     = "SugarCube-cmd/delfierro-dn-patch"
 $RAW_BASE = "https://raw.githubusercontent.com/$REPO/main"
+$GH_TOKEN = "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"
+$GH_HEADERS = @{ Authorization = "token $GH_TOKEN" }
 $GAME_DIR = Split-Path $PSScriptRoot -Parent
 $GAME_EXE = Join-Path $GAME_DIR "DragonNest.exe"
 $VER_FILE = Join-Path $PSScriptRoot "version.txt"
@@ -68,7 +70,7 @@ Write-Status "Local version  : $localVersion"
 
 $skipUpdate = $false
 try {
-    $remoteVersion = (Invoke-WebRequest -Uri "$RAW_BASE/version.txt" -UseBasicParsing).Content.Trim()
+    $remoteVersion = (Invoke-WebRequest -Uri "$RAW_BASE/version.txt" -Headers $GH_HEADERS -UseBasicParsing).Content.Trim()
     Write-Status "Remote version : $remoteVersion"
 } catch {
     Write-Status "Could not reach update server. Starting game anyway..." "Yellow"
@@ -80,7 +82,7 @@ if (-not $skipUpdate -and $localVersion -ne $remoteVersion) {
     Write-Host ""
 
     try {
-        $manifest = (Invoke-WebRequest -Uri "$RAW_BASE/manifest.json" -UseBasicParsing).Content | ConvertFrom-Json
+        $manifest = (Invoke-WebRequest -Uri "$RAW_BASE/manifest.json" -Headers $GH_HEADERS -UseBasicParsing).Content | ConvertFrom-Json
     } catch {
         Write-Status "Failed to fetch manifest. Starting game anyway..." "Yellow"
         $manifest = $null
@@ -97,7 +99,7 @@ if (-not $skipUpdate -and $localVersion -ne $remoteVersion) {
 
             Write-Status "Downloading: $patchName"
             try {
-                Invoke-WebRequest -Uri $patch.url -OutFile $patchFile -UseBasicParsing
+                Invoke-WebRequest -Uri $patch.url -Headers $GH_HEADERS -OutFile $patchFile -UseBasicParsing
                 $kb = [math]::Round((Get-Item $patchFile).Length / 1KB, 1)
                 Write-Status "  $kb KB downloaded" "Green"
             } catch {
