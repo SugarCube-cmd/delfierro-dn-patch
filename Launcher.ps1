@@ -92,6 +92,15 @@ if (-not $skipUpdate -and $localVersion -ne $remoteVersion) {
         New-Item -ItemType Directory -Path $TMP_DIR -Force | Out-Null
         $allOk = $true
 
+        # Fetch release asset list so we can download via API (required for private repos)
+        $releaseAssets = @{}
+        try {
+            $release = Invoke-RestMethod -Uri "https://api.github.com/repos/$REPO/releases/tags/v$remoteVersion" -Headers $GH_HEADERS
+            foreach ($asset in $release.assets) { $releaseAssets[$asset.name] = $asset.url }
+        } catch {
+            Write-Status "Could not fetch release info: $_" "Red"
+        }
+
         foreach ($patch in $manifest.patches) {
             $pakPath   = Join-Path $GAME_DIR $patch.pak
             $patchName = [System.IO.Path]::GetFileName($patch.url)
@@ -99,7 +108,10 @@ if (-not $skipUpdate -and $localVersion -ne $remoteVersion) {
 
             Write-Status "Downloading: $patchName"
             try {
-                Invoke-WebRequest -Uri $patch.url -Headers $GH_HEADERS -OutFile $patchFile -UseBasicParsing
+                $assetApiUrl = $releaseAssets[$patchName]
+                if (-not $assetApiUrl) { throw "Asset '$patchName' not found in release v$remoteVersion" }
+                $dlHeaders = @{ Authorization = "token $GH_TOKEN"; Accept = "application/octet-stream" }
+                Invoke-WebRequest -Uri $assetApiUrl -Headers $dlHeaders -OutFile $patchFile -UseBasicParsing
                 $kb = [math]::Round((Get-Item $patchFile).Length / 1KB, 1)
                 Write-Status "  $kb KB downloaded" "Green"
             } catch {
