@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ChannelList>
+  <Channel channel_name="Local">
+    <local_name>Del Fierro DN</local_name>
+    <guidepage>https://github.com/SugarCube-cmd/delfierro-dn-patch</guidepage>
+    <addr>https://raw.githubusercontent.com/SugarCube-cmd/delfierro-dn-patch/main/launcher/PatchConfig.cfg</addr>
+    <homepage>https://github.com/SugarCube-cmd/delfierro-dn-patch</homepage>
+    <versionupdate></versionupdate>
+    <statetest></statetest>
+    <login>10.255.227.166</login>
+    <port>14300</port>
+  </Channel>
+</ChannelList>
