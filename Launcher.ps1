@@ -110,8 +110,13 @@ if (-not $skipUpdate -and $localVersion -ne $remoteVersion) {
             try {
                 $assetApiUrl = $releaseAssets[$patchName]
                 if (-not $assetApiUrl) { throw "Asset '$patchName' not found in release v$remoteVersion" }
+                # Step 1: get S3 redirect URL (don't follow redirect, don't send auth to S3)
                 $dlHeaders = @{ Authorization = "token $GH_TOKEN"; Accept = "application/octet-stream" }
-                Invoke-WebRequest -Uri $assetApiUrl -Headers $dlHeaders -OutFile $patchFile -UseBasicParsing
+                $redirect = Invoke-WebRequest -Uri $assetApiUrl -Headers $dlHeaders -MaximumRedirection 0 -ErrorAction SilentlyContinue -UseBasicParsing
+                $s3Url = $redirect.Headers.Location
+                if (-not $s3Url) { throw "No redirect URL returned for '$patchName'" }
+                # Step 2: download from S3 directly (no auth header)
+                Invoke-WebRequest -Uri $s3Url -OutFile $patchFile -UseBasicParsing
                 $kb = [math]::Round((Get-Item $patchFile).Length / 1KB, 1)
                 Write-Status "  $kb KB downloaded" "Green"
             } catch {
