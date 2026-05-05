@@ -2,8 +2,6 @@ $ErrorActionPreference = 'Stop'
 
 $REPO     = "SugarCube-cmd/delfierro-dn-patch"
 $RAW_BASE = "https://raw.githubusercontent.com/$REPO/main"
-$GH_TOKEN = "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"
-$GH_HEADERS = @{ Authorization = "token $GH_TOKEN" }
 $GAME_DIR = Split-Path $PSScriptRoot -Parent
 $GAME_EXE = Join-Path $GAME_DIR "DragonNest.exe"
 $VER_FILE = Join-Path $PSScriptRoot "version.txt"
@@ -70,7 +68,7 @@ Write-Status "Local version  : $localVersion"
 
 $skipUpdate = $false
 try {
-    $remoteVersion = (Invoke-WebRequest -Uri "$RAW_BASE/version.txt" -Headers $GH_HEADERS -UseBasicParsing).Content.Trim()
+    $remoteVersion = (Invoke-WebRequest -Uri "$RAW_BASE/version.txt" -UseBasicParsing).Content.Trim()
     Write-Status "Remote version : $remoteVersion"
 } catch {
     Write-Status "Could not reach update server. Starting game anyway..." "Yellow"
@@ -82,7 +80,7 @@ if (-not $skipUpdate -and $localVersion -ne $remoteVersion) {
     Write-Host ""
 
     try {
-        $manifest = (Invoke-WebRequest -Uri "$RAW_BASE/manifest.json" -Headers $GH_HEADERS -UseBasicParsing).Content | ConvertFrom-Json
+        $manifest = (Invoke-WebRequest -Uri "$RAW_BASE/manifest.json" -UseBasicParsing).Content | ConvertFrom-Json
     } catch {
         Write-Status "Failed to fetch manifest. Starting game anyway..." "Yellow"
         $manifest = $null
@@ -91,15 +89,6 @@ if (-not $skipUpdate -and $localVersion -ne $remoteVersion) {
     if ($manifest) {
         New-Item -ItemType Directory -Path $TMP_DIR -Force | Out-Null
         $allOk = $true
-
-        # Fetch release asset list so we can download via API (required for private repos)
-        $releaseAssets = @{}
-        try {
-            $release = Invoke-RestMethod -Uri "https://api.github.com/repos/$REPO/releases/tags/v$remoteVersion" -Headers $GH_HEADERS
-            foreach ($asset in $release.assets) { $releaseAssets[$asset.name] = $asset.url }
-        } catch {
-            Write-Status "Could not fetch release info: $_" "Red"
-        }
 
         foreach ($patch in $manifest.patches) {
             $pakPath   = Join-Path $GAME_DIR $patch.pak
@@ -110,13 +99,7 @@ if (-not $skipUpdate -and $localVersion -ne $remoteVersion) {
             try {
                 $assetApiUrl = $releaseAssets[$patchName]
                 if (-not $assetApiUrl) { throw "Asset '$patchName' not found in release v$remoteVersion" }
-                # Step 1: get S3 redirect URL (don't follow redirect, don't send auth to S3)
-                $dlHeaders = @{ Authorization = "token $GH_TOKEN"; Accept = "application/octet-stream" }
-                $redirect = Invoke-WebRequest -Uri $assetApiUrl -Headers $dlHeaders -MaximumRedirection 0 -ErrorAction SilentlyContinue -UseBasicParsing
-                $s3Url = $redirect.Headers.Location
-                if (-not $s3Url) { throw "No redirect URL returned for '$patchName'" }
-                # Step 2: download from S3 directly (no auth header)
-                Invoke-WebRequest -Uri $s3Url -OutFile $patchFile -UseBasicParsing
+                Invoke-WebRequest -Uri $patch.url -OutFile $patchFile -UseBasicParsing
                 $kb = [math]::Round((Get-Item $patchFile).Length / 1KB, 1)
                 Write-Status "  $kb KB downloaded" "Green"
             } catch {
