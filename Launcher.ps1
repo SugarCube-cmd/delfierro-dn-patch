@@ -2,7 +2,7 @@ $ErrorActionPreference = 'Stop'
 
 $REPO     = "SugarCube-cmd/delfierro-dn-patch"
 $RAW_BASE = "https://raw.githubusercontent.com/$REPO/main"
-$GAME_DIR = Split-Path $PSScriptRoot -Parent
+$GAME_DIR = $PSScriptRoot
 $GAME_EXE = Join-Path $GAME_DIR "DragonNest.exe"
 $VER_FILE = Join-Path $PSScriptRoot "version.txt"
 $TMP_DIR  = Join-Path $PSScriptRoot "tmp"
@@ -97,8 +97,6 @@ if (-not $skipUpdate -and $localVersion -ne $remoteVersion) {
 
             Write-Status "Downloading: $patchName"
             try {
-                $assetApiUrl = $releaseAssets[$patchName]
-                if (-not $assetApiUrl) { throw "Asset '$patchName' not found in release v$remoteVersion" }
                 Invoke-WebRequest -Uri $patch.url -OutFile $patchFile -UseBasicParsing
                 $kb = [math]::Round((Get-Item $patchFile).Length / 1KB, 1)
                 Write-Status "  $kb KB downloaded" "Green"
@@ -134,4 +132,4 @@ Write-Host ""
 Write-Status "Starting game..." "Cyan"
 Start-Sleep 1
 Start-Process $GAME_EXE -ArgumentList "/logintoken: /ip:10.255.227.166 /port:14300 /Lver:2 /use_packing /gamechanneling:0"
-Start-Process powershell -ArgumentList "-WindowStyle Hidden -ExecutionPolicy Bypass -File `"$GAME_DIR\RenameWindow.ps1`""
+Start-Process powershell -ArgumentList "-WindowStyle Hidden -ExecutionPolicy Bypass -File `"$PSScriptRoot\RenameWindow.ps1`""
