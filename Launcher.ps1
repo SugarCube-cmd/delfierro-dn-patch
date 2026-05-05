@@ -80,7 +80,9 @@ if (-not $skipUpdate -and $localVersion -ne $remoteVersion) {
     Write-Host ""
 
     try {
-        $manifest = (Invoke-WebRequest -Uri "$RAW_BASE/manifest.json" -UseBasicParsing).Content | ConvertFrom-Json
+        $json = (Invoke-WebRequest -Uri "$RAW_BASE/manifest.json" -UseBasicParsing).Content
+        $json = $json.TrimStart([char]0xFEFF)
+        $manifest = $json | ConvertFrom-Json
     } catch {
         Write-Status "Failed to fetch manifest. Starting game anyway..." "Yellow"
         $manifest = $null
