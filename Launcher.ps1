@@ -90,6 +90,21 @@ if (-not $skipUpdate -and $localVersion -ne $remoteVersion) {
         New-Item -ItemType Directory -Path $TMP_DIR -Force | Out-Null
         $allOk = $true
 
+        # Apply plain file updates (e.g. LocalURL.ini, config files)
+        if ($manifest.files) {
+            foreach ($entry in $manifest.files) {
+                $destPath = Join-Path $GAME_DIR $entry.dest
+                Write-Status "Updating: $($entry.dest)"
+                try {
+                    Invoke-WebRequest -Uri $entry.url -OutFile $destPath -UseBasicParsing
+                    Write-Status "  OK" "Green"
+                } catch {
+                    Write-Status "  FAILED: $_" "Red"; $allOk = $false
+                }
+            }
+        }
+
+        # Apply pak patches (DNPT format)
         foreach ($patch in $manifest.patches) {
             $pakPath   = Join-Path $GAME_DIR $patch.pak
             $patchName = [System.IO.Path]::GetFileName($patch.url)

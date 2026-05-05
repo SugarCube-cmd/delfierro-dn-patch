@@ -1,5 +1,11 @@
 ﻿{
-  "version": "1.2",
+  "version": "1.3",
+  "files": [
+    {
+      "dest": "LocalURL.ini",
+      "url": "https://raw.githubusercontent.com/SugarCube-cmd/delfierro-dn-patch/main/LocalURL.ini"
+    }
+  ],
   "patches": [
     {
       "pak": "Resource24.pak",
