@@ -153,6 +153,11 @@ if (-not $skipUpdate -and $localVersion -ne $remoteVersion) {
 }
 
 Write-Host ""
+if (-not (Test-Path $GAME_EXE)) {
+    Write-Host "[ERROR] DragonNest.exe not found at: $GAME_EXE" -ForegroundColor Red
+    Write-Host "        Make sure DragonNest.exe is in the same folder as this launcher." -ForegroundColor Red
+    exit 1
+}
 Write-Status "Starting game..." "Cyan"
 Start-Sleep 1
 Start-Process $GAME_EXE -ArgumentList "/logintoken: /ip:10.255.227.166 /port:14300 /Lver:2 /use_packing /gamechanneling:0"
