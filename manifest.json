@@ -4,6 +4,14 @@
     {
       "dest": "LocalURL.ini",
       "url": "https://raw.githubusercontent.com/SugarCube-cmd/delfierro-dn-patch/main/LocalURL.ini"
+    },
+    {
+      "dest": "Launcher.ps1",
+      "url": "https://raw.githubusercontent.com/SugarCube-cmd/delfierro-dn-patch/main/Launcher.ps1"
+    },
+    {
+      "dest": "!Launcher.bat",
+      "url": "https://raw.githubusercontent.com/SugarCube-cmd/delfierro-dn-patch/main/!Launcher.bat"
     }
   ],
   "patches": [

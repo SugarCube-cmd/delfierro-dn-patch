@@ -6,3 +6,4 @@ if %errorlevel% neq 0 (
 )
 cd /d "%~dp0"
 powershell -ExecutionPolicy Bypass -File "%~dp0Launcher.ps1"
+pause

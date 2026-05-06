@@ -1,5 +1,12 @@
 $ErrorActionPreference = 'Stop'
 
+$LogFile = Join-Path $PSScriptRoot "Log\launcher_error.txt"
+trap {
+    $msg = "[$(Get-Date -Format 'yyyy-MM-dd HH:mm:ss')] ERROR: $_`n$($_.ScriptStackTrace)"
+    Add-Content -Path $LogFile -Value $msg
+    Write-Host "`n[ERROR] $_" -ForegroundColor Red
+}
+
 $REPO     = "SugarCube-cmd/delfierro-dn-patch"
 $RAW_BASE = "https://raw.githubusercontent.com/$REPO/main"
 $GAME_DIR = $PSScriptRoot
