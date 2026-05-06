@@ -1,5 +1,5 @@
 {
-  "version": "1.3",
+  "version": "1.4",
   "files": [
     {
       "dest": "LocalURL.ini",
@@ -16,6 +16,16 @@
       "pak": "Resource24.pak",
       "file": "/resource/ext/appellationtable.dnt",
       "url": "https://github.com/SugarCube-cmd/delfierro-dn-patch/releases/download/v1.2/Resource24.pak_appellationtable.dnt.dnpatch"
+    },
+    {
+      "pak": "Resource08.pak",
+      "file": "/mapdata/resource/sound/bgm/dragon nest_bgm_town_jinglebell.ogg",
+      "url": "https://github.com/SugarCube-cmd/delfierro-dn-patch/releases/download/v1.4/Resource08.pak_bgm.dnpatch"
+    },
+    {
+      "pak": "Resource20.pak",
+      "file": "/mapdata/resource/sound/bgm/dn_bgm_202009_neo_sainthaven.ogg",
+      "url": "https://github.com/SugarCube-cmd/delfierro-dn-patch/releases/download/v1.4/Resource20.pak_bgm.dnpatch"
     }
   ]
 }
