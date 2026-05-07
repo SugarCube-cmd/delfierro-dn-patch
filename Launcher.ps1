@@ -47,18 +47,41 @@ function Invoke-DnPatch {
         $oldCompSize = [BitConverter]::ToUInt32($pak, $metaBase)
         $dataOffset  = [BitConverter]::ToUInt32($pak, $metaBase + 12)
 
-        if ($newCompSize -gt $oldCompSize) { return $false }
+        if ($newCompSize -le $oldCompSize) {
+            # In-place: overwrite existing slot
+            [Array]::Copy($newData, 0, $pak, $dataOffset, $newData.Length)
+            $pad = $oldCompSize - $newCompSize
+            for ($p = 0; $p -lt $pad; $p++) { $pak[$dataOffset + $newData.Length + $p] = 0 }
 
-        [Array]::Copy($newData, 0, $pak, $dataOffset, $newData.Length)
-        $pad = $oldCompSize - $newCompSize
-        for ($p = 0; $p -lt $pad; $p++) { $pak[$dataOffset + $newData.Length + $p] = 0 }
+            $b = [BitConverter]::GetBytes([uint32]$newCompSize);   [Array]::Copy($b, 0, $pak, $metaBase,     4)
+            $b = [BitConverter]::GetBytes([uint32]$newUncompSize); [Array]::Copy($b, 0, $pak, $metaBase + 4, 4)
+            $b = [BitConverter]::GetBytes([uint32]$newCompSize);   [Array]::Copy($b, 0, $pak, $metaBase + 8, 4)
 
-        $b = [BitConverter]::GetBytes([uint32]$newCompSize);   [Array]::Copy($b, 0, $pak, $metaBase,     4)
-        $b = [BitConverter]::GetBytes([uint32]$newUncompSize); [Array]::Copy($b, 0, $pak, $metaBase + 4, 4)
-        $b = [BitConverter]::GetBytes([uint32]$newCompSize);   [Array]::Copy($b, 0, $pak, $metaBase + 8, 4)
+            [System.IO.File]::WriteAllBytes($PakPath, $pak)
+            return $true
+        } else {
+            # Expanding: insert new data before the table, shift table offset
+            $newTableOffset = $tableOffset + $newCompSize
+            $newPak = [byte[]]::new($pak.Length + $newCompSize)
+            [Array]::Copy($pak,   0,             $newPak, 0,              $tableOffset)
+            [Array]::Copy($newData, 0,           $newPak, $tableOffset,   $newCompSize)
+            [Array]::Copy($pak,   $tableOffset,  $newPak, $newTableOffset, $pak.Length - $tableOffset)
 
-        [System.IO.File]::WriteAllBytes($PakPath, $pak)
-        return $true
+            # Update table offset in header
+            $b = [BitConverter]::GetBytes([uint32]$newTableOffset)
+            [Array]::Copy($b, 0, $newPak, 264, 4)
+
+            # Update entry metadata (entry index $i is now at new table position)
+            $newEntryBase = $newTableOffset + $i * $entrySize
+            $newMeta      = $newEntryBase + 256
+            $b = [BitConverter]::GetBytes([uint32]$newCompSize);   [Array]::Copy($b, 0, $newPak, $newMeta,     4)
+            $b = [BitConverter]::GetBytes([uint32]$newUncompSize); [Array]::Copy($b, 0, $newPak, $newMeta + 4, 4)
+            $b = [BitConverter]::GetBytes([uint32]$newCompSize);   [Array]::Copy($b, 0, $newPak, $newMeta + 8, 4)
+            $b = [BitConverter]::GetBytes([uint32]$tableOffset);   [Array]::Copy($b, 0, $newPak, $newMeta + 12, 4)
+
+            [System.IO.File]::WriteAllBytes($PakPath, $newPak)
+            return $true
+        }
     }
     throw "File '$TargetFile' not found in pak"
 }
