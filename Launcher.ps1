@@ -183,5 +183,5 @@ if (-not (Test-Path $GAME_EXE)) {
 }
 Write-Status "Starting game..." "Cyan"
 Start-Sleep 1
-Start-Process $GAME_EXE -ArgumentList "/logintoken: /ip:10.255.227.166 /port:14300 /Lver:2 /use_packing /gamechanneling:0"
+Start-Process $GAME_EXE -ArgumentList "/logintoken: /ip:209.25.142.31 /port:1176 /Lver:2 /use_packing /gamechanneling:0"
 Start-Process powershell -ArgumentList "-WindowStyle Hidden -ExecutionPolicy Bypass -File `"$PSScriptRoot\RenameWindow.ps1`""
