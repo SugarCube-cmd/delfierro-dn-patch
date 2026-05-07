@@ -1,5 +1,5 @@
 {
-  "version": "1.5",
+  "version": "1.8",
   "files": [
     {
       "dest": "LocalURL.ini",
@@ -34,6 +34,11 @@
       "pak": "Resource20.pak",
       "file": "/mapdata/resource/sound/bgm/dn_bgm_202009_neo_sainthaven.ogg",
       "url": "https://github.com/SugarCube-cmd/delfierro-dn-patch/releases/download/v1.4/Resource20.pak_bgm.dnpatch"
+    },
+    {
+      "pak": "Resource20.pak",
+      "file": "/resource/ui/guildmenu/guildflag11.dds",
+      "url": "https://github.com/SugarCube-cmd/delfierro-dn-patch/releases/download/v1.8/Resource20.pak_guildflag11.dds.dnpatch"
     }
   ]
 }
