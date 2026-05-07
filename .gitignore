@@ -1,0 +1,42 @@
+# Ignore large pak files and backups
+*.pak
+*.pak.*
+*.bak
+*.bak*
+
+# Ignore extracted DDS/BMP files
+*.dds
+*.bmp
+
+# Ignore Python cache
+__pycache__/
+*.pyc
+
+# Ignore misc scripts used for investigation
+extract_guild_mark21.py
+check_gold_skn.py
+find_guild_icons.py
+patch_seasongrade_test.py
+make_test_seasongrade.py
+search_guildflag.py
+inspect_skn_and_uit.py
+read_skn_content.py
+find_badge_texture.py
+find_badge_ui_ref.py
+find_badge_ui_ref2.py
+find_grade_eff.py
+decode_dxt5_bmp.py
+decode_grade_textures.py
+patch_uit_guildgradeflag.py
+patch_uit_v2.py
+patch_guildflag11.py
+verify_uit.py
+fix_sp.py
+guild_mark*.png
+guildflag*.png
+seasongrade_original.png
+uit_guildgradeflag.bmp
+
+# Ignore server files
+xinserver-64_574/
+DNClient/
