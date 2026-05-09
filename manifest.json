@@ -1,5 +1,5 @@
 {
-  "version": "1.10",
+  "version": "1.11",
   "files": [
     {
       "dest": "LocalURL.ini",
@@ -19,6 +19,11 @@
       "pak": "Resource24.pak",
       "file": "/resource/uistring/uistring.xml",
       "url": "https://raw.githubusercontent.com/SugarCube-cmd/delfierro-dn-patch/main/Resource24.pak_uistring.xml.v110.dnpatch"
+    },
+    {
+      "pak": "Resource24.pak",
+      "file": "/resource/script/talk_npc/n092_trader_kelly.xml",
+      "url": "https://raw.githubusercontent.com/SugarCube-cmd/delfierro-dn-patch/main/Resource24.pak_n092_trader_kelly.xml.v111.dnpatch"
     },
     {
       "pak": "Resource24.pak",
