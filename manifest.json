@@ -1,5 +1,5 @@
 {
-  "version": "1.11",
+  "version": "1.12",
   "files": [
     {
       "dest": "LocalURL.ini",
@@ -18,7 +18,7 @@
     {
       "pak": "Resource24.pak",
       "file": "/resource/uistring/uistring.xml",
-      "url": "https://raw.githubusercontent.com/SugarCube-cmd/delfierro-dn-patch/main/Resource24.pak_uistring.xml.v110.dnpatch"
+      "url": "https://raw.githubusercontent.com/SugarCube-cmd/delfierro-dn-patch/main/Resource24.pak_uistring.xml.footer_nbsp.dnpatch"
     },
     {
       "pak": "Resource24.pak",
@@ -43,7 +43,52 @@
     {
       "pak": "Resource20.pak",
       "file": "/resource/ui/guildmenu/guildflag11.dds",
-      "url": "https://github.com/SugarCube-cmd/delfierro-dn-patch/releases/download/v1.8/Resource20.pak_guildflag11.dds.dnpatch"
+      "url": "https://raw.githubusercontent.com/SugarCube-cmd/delfierro-dn-patch/main/Resource20.pak_guildflag11.dds.dnpatch"
+    },
+    {
+      "pak": "Resource20.pak",
+      "file": "/resource/uitemplatetexture/uit_guildgradeflag.dds",
+      "url": "https://raw.githubusercontent.com/SugarCube-cmd/delfierro-dn-patch/main/Resource20.pak_uit_guildgradeflag.dds.dnpatch"
+    },
+    {
+      "pak": "Resource24.pak",
+      "file": "/resource/uitemplatetexture/uit_dragonnestlogo_big_chn.dds",
+      "url": "https://raw.githubusercontent.com/SugarCube-cmd/delfierro-dn-patch/main/Resource24.pak_uit_dragonnestlogo_big_chn.dds.dnpatch"
+    },
+    {
+      "pak": "Resource24.pak",
+      "file": "/resource/uitemplatetexture/uit_dragon_logo01_anu.dds",
+      "url": "https://raw.githubusercontent.com/SugarCube-cmd/delfierro-dn-patch/main/Resource24.pak_uit_dragon_logo01_anu.dds.dnpatch"
+    },
+    {
+      "pak": "Resource06.pak",
+      "file": "/resource/uitemplatetexture/uit_dragonnestlogo_big.dds",
+      "url": "https://raw.githubusercontent.com/SugarCube-cmd/delfierro-dn-patch/main/Resource06.pak_uit_dragonnestlogo_big.dds.dnpatch"
+    },
+    {
+      "pak": "Resource06.pak",
+      "file": "/resource/uitemplatetexture/uit_dragonnestlogo_medium.dds",
+      "url": "https://raw.githubusercontent.com/SugarCube-cmd/delfierro-dn-patch/main/Resource06.pak_uit_dragonnestlogo_medium.dds.dnpatch"
+    },
+    {
+      "pak": "Resource06.pak",
+      "file": "/resource/uitemplatetexture/uit_dragonnestlogo_small.dds",
+      "url": "https://raw.githubusercontent.com/SugarCube-cmd/delfierro-dn-patch/main/Resource06.pak_uit_dragonnestlogo_small.dds.dnpatch"
+    },
+    {
+      "pak": "Resource08.pak",
+      "file": "/resource/uitemplatetexture/uit_dragon_logo01_big_twn.dds",
+      "url": "https://raw.githubusercontent.com/SugarCube-cmd/delfierro-dn-patch/main/Resource08.pak_uit_dragon_logo01_big_twn.dds.dnpatch"
+    },
+    {
+      "pak": "Resource13.pak",
+      "file": "/resource/uitemplatetexture/uit_logintitle_re.dds",
+      "url": "https://raw.githubusercontent.com/SugarCube-cmd/delfierro-dn-patch/main/Resource13.pak_uit_logintitle_re.dds.dnpatch"
+    },
+    {
+      "pak": "Resource13.pak",
+      "file": "/resource/uitemplatetexture/uit_dragonlogo_re.dds",
+      "url": "https://raw.githubusercontent.com/SugarCube-cmd/delfierro-dn-patch/main/Resource13.pak_uit_dragonlogo_re.dds.dnpatch"
     }
   ]
 }
