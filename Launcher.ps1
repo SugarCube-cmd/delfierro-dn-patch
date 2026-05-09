@@ -164,10 +164,27 @@ if (-not $skipUpdate -and $localVersion -ne $remoteVersion) {
         Remove-Item $TMP_DIR -Recurse -Force -ErrorAction SilentlyContinue
 
         if ($allOk) {
-            Set-Content -Path $VER_FILE -Value $remoteVersion
-            Write-Host ""
-            Write-Status "Patch complete! Now on version $remoteVersion" "Green"
-        } else {
+            try {
+                Set-Content -Path $VER_FILE -Value $remoteVersion -Encoding UTF8
+                $savedVersion = (Get-Content $VER_FILE -Raw).Trim()
+                if ($savedVersion -ne $remoteVersion) {
+                    Write-Status "Version file verify failed (saved '$savedVersion', expected '$remoteVersion')." "Red"
+                    Write-Status "Launcher cannot persist version, so patches will reapply every run." "Red"
+                    $allOk = $false
+                }
+            } catch {
+                Write-Status "Failed to write version.txt: $_" "Red"
+                Write-Status "Patches will reapply every run until version.txt can be saved." "Red"
+                $allOk = $false
+            }
+
+            if ($allOk) {
+                Write-Host ""
+                Write-Status "Patch complete! Now on version $remoteVersion" "Green"
+            }
+        }
+
+        if (-not $allOk) {
             Write-Status "Some patches failed." "Yellow"
         }
     }
