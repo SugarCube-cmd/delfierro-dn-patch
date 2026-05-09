@@ -1,4 +1,4 @@
-$ErrorActionPreference = 'Stop'
+﻿$ErrorActionPreference = 'Stop'
 
 $LogFile = Join-Path $PSScriptRoot "Log\launcher_error.txt"
 trap {
@@ -86,7 +86,7 @@ function Invoke-DnPatch {
     throw "File '$TargetFile' not found in pak"
 }
 
-# ── Main ──────────────────────────────────────────────────────────────────────
+# â”€â”€ Main â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 Write-Host ""
 Write-Host "  ====================================" -ForegroundColor Yellow
 Write-Host "    Del Fierro Dragon Nest Launcher   " -ForegroundColor Yellow
@@ -183,5 +183,6 @@ if (-not (Test-Path $GAME_EXE)) {
 }
 Write-Status "Starting game..." "Cyan"
 Start-Sleep 1
-Start-Process $GAME_EXE -ArgumentList "/logintoken: /ip:209.25.142.31 /port:1176 /Lver:2 /use_packing /gamechanneling:0"
+Start-Process $GAME_EXE -ArgumentList "/logintoken: /ip:26.161.216.186 /port:14300 /Lver:2 /use_packing /gamechanneling:0"
 Start-Process powershell -ArgumentList "-WindowStyle Hidden -ExecutionPolicy Bypass -File `"$PSScriptRoot\RenameWindow.ps1`""
+

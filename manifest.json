@@ -1,5 +1,5 @@
 {
-  "version": "1.9",
+  "version": "1.10",
   "files": [
     {
       "dest": "LocalURL.ini",
@@ -18,7 +18,7 @@
     {
       "pak": "Resource24.pak",
       "file": "/resource/uistring/uistring.xml",
-      "url": "https://github.com/SugarCube-cmd/delfierro-dn-patch/releases/download/v1.9/Resource24.pak_uistring.xml.dnpatch"
+      "url": "https://raw.githubusercontent.com/SugarCube-cmd/delfierro-dn-patch/main/Resource24.pak_uistring.xml.v110.dnpatch"
     },
     {
       "pak": "Resource24.pak",
